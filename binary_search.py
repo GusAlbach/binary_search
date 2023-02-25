@@ -28,7 +28,7 @@ def find_smallest_positive(xs):
     '''
     if len(xs) == 0:
         return None 
-    # base case, checks for no length in list
+    # ase case, checks for no length in list
     if xs[-1] <= 0:
         return None
     # checks if list has any positives

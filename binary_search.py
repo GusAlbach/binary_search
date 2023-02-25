@@ -6,13 +6,14 @@ It's really easy to have off-by-1 errors in these problems.
 Pay very close attention to your list indexes and your < vs <= operators.
 '''
 
+
 def find_smallest_positive(xs):
     '''
     Assume that xs is a list of numbers sorted from LOWEST to HIGHEST.
     Find the index of the smallest positive number.
     If no such index exists, return `None`.
 
-    HINT: 
+    HINT:
     This is essentially the binary search algorithm from class,
     but you're always searching for 0.
 
@@ -27,14 +28,14 @@ def find_smallest_positive(xs):
     True
     '''
     if len(xs) == 0:
-        return None 
+        return None
     # ase case, checks for no length in list
     if xs[-1] <= 0:
         return None
     # checks if list has any positives
     mid = len(xs) // 2
     if mid == 0 and xs[mid] > 0:
-        return mid 
+        return mid
     # solves one of the tests inefficiently
     if xs[mid] == 0:
         return mid + 1
@@ -54,13 +55,14 @@ def find_smallest_positive(xs):
 
     # use helper function and just return the mid number and high number (probably just the len of list) and recursively iterate through smaller list
 
+
 def count_repeats(xs, x):
     '''
     Assume that xs is a list of numbers sorted from HIGHEST to LOWEST,
     and that x is a number.
     Calculate the number of times that x occurs in xs.
 
-    HINT: 
+    HINT:
     Use the following three step procedure:
         1) use binary search to find the lowest index with a value >= x
         2) use binary search to find the lowest index with a value < x
@@ -90,7 +92,7 @@ def count_repeats(xs, x):
 
 def _highest(xs, x):
     if len(xs) == 0:
-        return 0 
+        return 0
     if len(xs) == 1:
         return 0
     mid = len(xs) // 2
@@ -109,7 +111,7 @@ def _highest(xs, x):
 
 def _lowest(xs, x):
     if len(xs) == 0:
-        return 0 
+        return 0
     if len(xs) == 1:
         return 0
     mid = len(xs) // 2
@@ -137,7 +139,7 @@ def argmin(f, lo, hi, epsilon=1e-3):
         2) For each recursive call:
             a) select two points m1 and m2 that are between lo and hi
             b) one of the 4 points (lo,m1,m2,hi) must be the smallest;
-               depending on which one is the smallest, 
+               depending on which one is the smallest,
                you recursively call your function on the interval [lo,m2] or [m1,hi]
 
     APPLICATION:
@@ -159,7 +161,7 @@ def argmin(f, lo, hi, epsilon=1e-3):
     -0.00016935087808430278
     '''
     if hi - lo < epsilon:
-        return hi 
+        return hi
     m1 = ((hi - lo) // 3) + lo
     m2 = (2 * ((hi - lo) // 3)) + lo
     if min(f(m1), f(m2), f(lo), f(hi)) == f(m1):
@@ -170,8 +172,6 @@ def argmin(f, lo, hi, epsilon=1e-3):
         return argmin(f, m1, hi, epsilon=1e-3)
     if min(f(m1), f(m2), f(lo), f(hi)) == f(hi):
         return argmin(f, m1, hi, epsilon=1e-3)
-
-
 
 
 ################################################################################

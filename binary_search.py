@@ -26,7 +26,33 @@ def find_smallest_positive(xs):
     >>> find_smallest_positive([-3, -2, -1]) is None
     True
     '''
+    if len(xs) == 0:
+        return None 
+    # base case, checks for no length in list
+    if xs[-1] <= 0:
+        return None
+    # checks if list has any positives
+    mid = len(xs) // 2
+    if mid == 0 and xs[mid] > 0:
+        return mid 
+    # solves one of the tests inefficiently
+    if xs[mid] == 0:
+        return mid + 1
+    # returns number to right of zero
+    if xs[mid - 1] == 0:
+        return mid
+    # returns mid if number left is zero
+    if xs[mid - 1] <= 0 and xs[mid] > 0:
+        return mid
+    # returns mid if mid is + and left number is -
+    if xs[mid] > 0:
+        return find_smallest_positive(xs[:mid])
+    # reruns function with everything below that number if it is positive
+    if xs[mid] <= 0:
+        return mid + find_smallest_positive(xs[mid:])
+    # reruns function  with everything above that number if it is negative
 
+    # use helper function and just return the mid number and high number (probably just the len of list) and recursively iterate through smaller list
 
 def count_repeats(xs, x):
     '''
@@ -52,6 +78,51 @@ def count_repeats(xs, x):
     >>> count_repeats([3, 2, 1], 4)
     0
     '''
+    if len(xs) == 0:
+        return 0
+    if _highest(xs, x) == _lowest(xs, x):
+        if xs[_highest(xs, x)] == x:
+            return 1
+        else:
+            return 0
+    return _lowest(xs, x) - _highest(xs, x) + 1
+
+
+def _highest(xs, x):
+    if len(xs) == 0:
+        return 0 
+    if len(xs) == 1:
+        return 0
+    mid = len(xs) // 2
+    if xs[mid] > x:
+        return mid + _highest(xs[mid:], x)
+    if xs[mid] < x:
+        return _highest(xs[:mid], x)
+    if xs[mid] == x:
+        if len(xs) == 1:
+            return mid
+        if xs[mid - 1] > x:
+            return mid
+        else:
+            return _highest(xs[:mid], x)
+
+
+def _lowest(xs, x):
+    if len(xs) == 0:
+        return 0 
+    if len(xs) == 1:
+        return 0
+    mid = len(xs) // 2
+    if xs[mid] > x:
+        return mid + _lowest(xs[mid:], x)
+    if xs[mid] < x:
+        return _lowest(xs[:mid], x)
+    if xs[mid] == x:
+        if len(xs) <= mid + 1:
+            return mid
+        if xs[mid + 1] < x:
+            return mid
+        return mid + _lowest(xs[mid:], x)
 
 
 def argmin(f, lo, hi, epsilon=1e-3):
@@ -87,6 +158,20 @@ def argmin(f, lo, hi, epsilon=1e-3):
     >>> argmin(lambda x: (x-5)**2, -20, 0)
     -0.00016935087808430278
     '''
+    if hi - lo < epsilon:
+        return hi 
+    m1 = ((hi - lo) // 3) + lo
+    m2 = (2 * ((hi - lo) // 3)) + lo
+    if min(f(m1), f(m2), f(lo), f(hi)) == f(m1):
+        return argmin(f, lo, m2, epsilon=1e-3)
+    if min(f(m1), f(m2), f(lo), f(hi)) == f(lo):
+        return argmin(f, lo, m2, epsilon=1e-3)
+    if min(f(m1), f(m2), f(lo), f(hi)) == f(m2):
+        return argmin(f, m1, hi, epsilon=1e-3)
+    if min(f(m1), f(m2), f(lo), f(hi)) == f(hi):
+        return argmin(f, m1, hi, epsilon=1e-3)
+
+
 
 
 ################################################################################

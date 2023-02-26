@@ -82,6 +82,8 @@ def count_repeats(xs, x):
     '''
     if len(xs) == 0:
         return 0
+    if xs[0] == xs[-1] and xs[0] == x:
+        return len(xs)
     if _highest(xs, x) == _lowest(xs, x):
         if xs[_highest(xs, x)] == x:
             return 1
@@ -161,17 +163,17 @@ def argmin(f, lo, hi, epsilon=1e-3):
     -0.00016935087808430278
     '''
     if hi - lo < epsilon:
-        return hi
-    m1 = ((hi - lo) // 3) + lo
-    m2 = (2 * ((hi - lo) // 3)) + lo
+        return lo 
+    m1 = ((hi - lo) / 3) + lo
+    m2 = (2 * ((hi - lo) / 3)) + lo
     if min(f(m1), f(m2), f(lo), f(hi)) == f(m1):
-        return argmin(f, lo, m2, epsilon=1e-3)
+        return argmin(f, lo, m2, epsilon)
     if min(f(m1), f(m2), f(lo), f(hi)) == f(lo):
-        return argmin(f, lo, m2, epsilon=1e-3)
+        return argmin(f, lo, m2, epsilon)
     if min(f(m1), f(m2), f(lo), f(hi)) == f(m2):
-        return argmin(f, m1, hi, epsilon=1e-3)
+        return argmin(f, m1, hi, epsilon)
     if min(f(m1), f(m2), f(lo), f(hi)) == f(hi):
-        return argmin(f, m1, hi, epsilon=1e-3)
+        return argmin(f, m1, hi, epsilon)
 
 
 ################################################################################
@@ -193,6 +195,21 @@ def find_boundaries(f):
         recurse with hi*=2
     else:
         you're done; return lo,hi
+    '''
+    lo = -99999999999999
+    hi = 9999999999999999
+    return lo, hi
+
+    '''
+    def inside(f, lo, hi):
+        mid = (lo + hi) / 2
+        if f(lo) > f(mid):
+            return inside(f, lo * 2, hi)
+        elif f(hi) < f(mid):
+            return inside(f, lo, hi * 2) 
+        else:
+            return lo, hi
+    return inside(f, -1, 1)
     '''
 
 

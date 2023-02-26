@@ -163,7 +163,7 @@ def argmin(f, lo, hi, epsilon=1e-3):
     -0.00016935087808430278
     '''
     if hi - lo < epsilon:
-        return lo 
+        return lo
     m1 = ((hi - lo) / 3) + lo
     m2 = (2 * ((hi - lo) / 3)) + lo
     if min(f(m1), f(m2), f(lo), f(hi)) == f(m1):
@@ -206,7 +206,7 @@ def find_boundaries(f):
         if f(lo) > f(mid):
             return inside(f, lo * 2, hi)
         elif f(hi) < f(mid):
-            return inside(f, lo, hi * 2) 
+            return inside(f, lo, hi * 2)
         else:
             return lo, hi
     return inside(f, -1, 1)
